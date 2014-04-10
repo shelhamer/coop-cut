@@ -1,0 +1,7 @@
+# "Legs and Twigs:" objects with fine structures
+
+http://melodi.ee.washington.edu/~jegelka/cc/index.html
+
+- images
+- input labels
+- groundtruth, whole mask and only fine-structured parts

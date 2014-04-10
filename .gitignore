@@ -1,0 +1,34 @@
+## General
+
+# Compiled Object files
+*.o
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.la
+*.a
+
+# Compiled binaries or data
+coop-cut/coopcut
+comm-cut/commcut
+*.bin
+
+# Compiled python
+*.pyc
+
+# Compiled MATLAB
+*.mex*
+
+# Editor temporaries
+*.swp
+*~
+
+# IPython notebook checkpoints
+.ipynb_checkpoints
+
+## Project data
+
+data
