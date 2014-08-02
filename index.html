@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Cooperative Cut by shelhamer</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Cooperative Cut</h1>
+        <p>Coupling edges for coherent boundaries</p>
+
+        <p class="view"><a href="https://github.com/shelhamer/coop-cut">View the Project on GitHub <small>shelhamer/coop-cut</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/shelhamer/coop-cut/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/shelhamer/coop-cut/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/shelhamer/coop-cut">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="cooperative-cut" class="anchor" href="#cooperative-cut"><span class="octicon octicon-link"></span></a>Cooperative Cut</h1>
+
+<p>This is the reference implementation of cooperative cut. <strong>A tech report and extensions to the model are coming soon!</strong></p>
+
+<p>Cooperative cut is an inference method for Markov Random Field (MRF) problems that solves a class of higher-order energy functions by fast submodular optimization that encourages homogenous label transitions. For image segmentation, this means cooperative cut encourages coherent boundaries. In practice this can help with difficulties due to shading or fine structures.</p>
+
+<h2>
+<a name="cooperative-segmentation" class="anchor" href="#cooperative-segmentation"><span class="octicon octicon-link"></span></a>Cooperative Segmentation</h2>
+
+<p>Why would we care about homogenous label transitions and higher-order potentials? A common approach to segmenting images is to formulate the problem as inference in a Markov Random Field (MRF) or Conditional Random Field (CRF) with "attractive potentials". This is mathematically equivalent to saying that the image is a grid graph, where each pixel is a node, and we cut out the object from the grid. The penalty we pay is the length of the cut, i.e., the length of the object boundary. Obviously, this encourages segmentations with short boundaries. But not all natural objects have short boundaries:</p>
+
+<p><img src="https://raw.githubusercontent.com/shelhamer/coop-cut/master/figures/gcut_vs_coopcut.png" alt="A comparison of Graph Cut and Cooperative Cut."></p>
+
+<p>How could we then identify a correct boundary? In many cases, the true boundary might have complex shape, but it is fairly uniform (congruous): the inside (object) colors as well as the background pattern do not change all that much. Therefore, cooperative cut models penalize boundary length only if the boundary is diverse, i.e., non-uniform.</p>
+
+<p>How is this achieved? We group the edges in the grid graph into classes of similar edges (similarity is determined from the color, intensity or other features of the adjacent nodes). We then have a submodular function over the edges that gives a discount if we use lots of edges from the same class - the cost increase diminishes as we cut more and more edges from the same class. But for each new class of edges that occurs in the cut, we must pay. Therefore, the cost of the blue cut below increases linearly with its length, and the cost of the green cut gets discounts.</p>
+
+<p><img src="https://raw.githubusercontent.com/shelhamer/coop-cut/master/figures/costs.png" alt="Illustration of edge costs."></p>
+
+<p>Formally, the standard graph cut function counts the sum of edge weights</p>
+
+<p><img src="https://raw.githubusercontent.com/shelhamer/coop-cut/master/figures/gcutcost.png" alt="Graph cut cost function">.</p>
+
+<p>The submodular cut function looks at each edge class $E_k$ separately (one term in the sum for each class). Within each class, it counts the edge weights like the standard function, and then squashes them with a concave function $g_k$: </p>
+
+<p><img src="https://raw.githubusercontent.com/shelhamer/coop-cut/master/figures/coopcost.png" alt="Cooperative cut cost function">.</p>
+
+<p>As a result, this function favors the continuation of similar boundaries over short-cuts, and helps to better segment fine structures.
+The inference can be done by an iterative graph cut method, as described in the paper.</p>
+
+<p>This also works for grayscale images, if we group edges by the ratios of the intensities of adjacent pixels:<br><img src="https://raw.githubusercontent.com/shelhamer/coop-cut/master/figures/segmentations.jpg" alt="A comparison of several segmentation methods."></p>
+
+<h2>
+<a name="authors" class="anchor" href="#authors"><span class="octicon octicon-link"></span></a>Authors</h2>
+
+<ul>
+<li>
+<a href="http://imaginarynumber.net/">Evan Shelhamer</a>, UC Berkeley CS / ICSI. <a href="https://github.com/shelhamer" class="user-mention">@shelhamer</a>
+</li>
+<li>
+<a href="http://www.cs.berkeley.edu/%7Estefje/">Stefanie Jegelka</a>, UC Berkeley CS / ICSI.</li>
+<li>
+<a href="http://www.eecs.berkeley.edu/%7Etrevor/">Trevor Darrell</a>, UC Berkeley CS / ICSI.</li>
+</ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/shelhamer">shelhamer</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
