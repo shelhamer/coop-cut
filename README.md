@@ -2,7 +2,7 @@
 
 This is the reference implementation of the Cooperative Cut inference algorithm for Markov Random Field (MRF) models and its application to segmentation.
 
-This implementation relies on [Kolmogorov's maxflow](http://www.cs.ucl.ac.uk/staff/V.Kolmogorov/software.html).
+This implementation relies on [Kolmogorov's](http://pub.ist.ac.at/~vnk/software.html) [maxflow](http://pub.ist.ac.at/~vnk/software/maxflow-v3.04.src.zip).
 
 The package includes:
 
