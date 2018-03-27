@@ -1,1 +1,1 @@
-from pycoop import *
+from pycoop.pycoop import *
