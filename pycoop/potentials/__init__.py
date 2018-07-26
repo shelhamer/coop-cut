@@ -1,1 +1,1 @@
-from potentials import *
+from pycoop.potentials.potentials import *

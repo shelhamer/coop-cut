@@ -34,7 +34,7 @@ def learn_gmm(X, n_comp=5, covar='full'):
     gmm: a fitted sklearn GMM:
     http://scikit-learn.org/stable/modules/generated/sklearn.mixture.GMM.html
   """
-  gmm = mixture.GMM(n_components=5, covariance_type='full')
+  gmm = mixture.GaussianMixture(n_components=5, covariance_type='full')
   gmm.fit(X)
   return gmm
 
@@ -50,9 +50,9 @@ def make_gmm_unaries(X, fg_gmm, bg_gmm):
   Give
     fg_unary, bg_unary: log probabilities under the fg and bg gmms resp.
   """
-  fg_un, _ = fg_gmm.score_samples(X)
-  bg_un, _ = bg_gmm.score_samples(X)
-  return fg_un, bg_un
+  fg_un = fg_gmm.score_samples(X)
+  bg_un = bg_gmm.score_samples(X)
+  return (fg_un, bg_un)
 
 
 def cluster_edges(edges, k=None, centroids=None):

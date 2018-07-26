@@ -32,3 +32,19 @@ comm-cut/commcut
 ## Project data
 
 data
+
+## Virtualenv
+.Python
+bin/
+etc/
+include/
+lib/
+pip-selfcheck.json
+share/
+
+## Tests
+.pytest_cache/
+pycoop/.pytest_cache/
+
+## Pycharm
+.idea/
