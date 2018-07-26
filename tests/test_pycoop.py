@@ -1,7 +1,6 @@
 from skimage import io
 import numpy as np
-import pycoop
-import pycoop
+from pycoop import pycoop
 from pycoop import potentials
 
 im = io.imread('data/bee.jpg').astype(np.float64)

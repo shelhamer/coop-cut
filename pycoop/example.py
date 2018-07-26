@@ -1,4 +1,7 @@
-import pycoop, numpy as np, skimage.io
+from __future__ import print_function
+import pycoop
+import numpy as np
+import skimage.io
 
 example_dir = '../data/'
 
